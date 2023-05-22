@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+	<title>520快乐 我的妮儿！</title>
+
+	<style>
+		body {
+			margin: 0;
+			padding: 0;
+			height: 100vh;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+
+		.container {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			width: 100%;
+		}
+
+		.left-section,
+		.right-section {
+			width: 50%;
+			height: 100vh;
+			background-size: cover;
+			background-position: center;
+			position: relative;
+			overflow: hidden;
+			transition: transform 0.3s ease, border-radius 0.3s ease;
+			border-radius: 0px;
+		}
+
+		.left-section {
+			background-image: url("img/4.jpg");
+		}
+
+		.right-section {
+			background-color: #dddddd;
+			background-image: url("img/8.jpg");
+		}
+
+		.left-section:hover,
+		.right-section:hover {
+			transform: scale(0.99);
+			border-radius: 3%;
+		}
+		
+		.left-section:before,
+		.right-section:before
+		 {
+			content: "";
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background-image: inherit;
+			background-size: cover;
+			filter: blur(10px);
+			z-index: -1;
+			opacity: 0;
+			transition: opacity 0.3s ease;
+		}
+
+		.left-section:hover:before,
+		.right-section:hover:before {
+			opacity: 1;
+		}
+
+		.overlay {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background-color: rgba(255, 255, 255, 0.6);
+			opacity: 0;
+			transition: opacity 0.3s ease;
+		}
+
+		.left-section:hover .overlay,
+		.right-section:hover .overlay {
+			opacity: 1;
+		}
+
+		.center-link {
+			position: absolute;
+			top: 50%;
+			transform: translateY(-50%);
+			text-align: center;
+			transition: background-color 0.3s ease, color 0.3s ease;
+		}
+
+		.center-link a {
+			display: none;
+		}
+
+		.left-section:hover .center-link {
+			left: 102%;
+			transform: translateY(-50%) translateX(-100%);
+		}
+
+		.right-section:hover .center-link {
+			right: 102%;
+			transform: translateY(-50%) translateX(100%);
+		}
+
+		.left-section:hover .center-link a,
+		 .right-section:hover .center-link a {
+			display: inline-block;
+			margin-bottom: 20px;
+			font-size: 24px;
+			text-decoration: none;
+			padding: 10px 20px;
+			border-radius: 5px;
+			color: #f88686;
+			transition: background-color 0.3s ease, color 0.3s ease;
+		}
+
+		.fireworks {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			pointer-events: none;
+			z-index: 999;
+			overflow: hidden;
+		}
+
+		.heart {
+			position: absolute;
+			width: 30px;
+			height: 30px;
+			pointer-events: none;
+			animation: fireworks 2s infinite;
+			font-size: 30px;
+			line-height: 30px;
+		}
+
+		@keyframes fireworks {
+			0% {
+				opacity: 1;
+				transform: scale(1);
+			}
+			100% {
+				opacity: 0;
+				transform: scale(0.1);
+			}
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="left-section">
+			<div class="overlay"></div>
+			<div class="center-link">
+				<a href="person.html"><img src="img/heartleft.png" alt="COLOR TYPE" width="100" height="100"></a>
+			</div>
+		</div>
+		<div class="right-section">
+			<div class="overlay"></div>
+			<div class="center-link">
+				<a href="lettle.html"><img src="img/heartright.png" alt="GRAY TYPE" width="100" height="100"></a>
+			</div>
+		</div>
+		<div class="fireworks"></div>
+
+		<script>
+			const container = document.querySelector('.container');
+			const fireworksContainer = document.querySelector('.fireworks');
+			let isMouseMoving = false;
+
+			container.addEventListener('mousemove', function (event) {
+				isMouseMoving = true;
+				const x = event.clientX - container.getBoundingClientRect().left;
+				const y = event.clientY - container.getBoundingClientRect().top;
+
+				setTimeout(() => {
+					if (isMouseMoving) {
+						const heart = document.createElement('span');
+						heart.classList.add('heart');
+						heart.style.top = y + 'px';
+						heart.style.left = x + 'px';
+						heart.style.color = getRandomColor();
+						heart.innerHTML = '♥';
+
+						fireworksContainer.appendChild(heart);
+
+						setTimeout(() => {
+							heart.remove();
+						}, 2000);
+					}
+				}, 100);
+			});
+
+			container.addEventListener('mouseleave', function () {
+				isMouseMoving = false;
+			});
+
+			function getRandomColor() {
+				const letters = '0123456789ABCDEF';
+				let color = '#';
+				for (let i = 0; i < 6; i++) {
+					color += letters[Math.floor(Math.random() * 16)];
+				}
+				return color;
+			}
+		</script>
+	</div>
+</body>
+</html>
